@@ -1,6 +1,6 @@
 const Sidebar = () => {
   return (
-    <div className=" fixed bottom-0 left-0 w-1/3 max-w-96 h-[95vh] bg-zinc-950 rounded-se-xl text-white">
+    <div className=" fixed bottom-0 left-0 w-1/4 h-[95vh] bg-zinc-950 rounded-se-xl text-white">
         <div className=" pt-16 pl-8 flex flex-col gap-8">
             <h3 className=" uppercase text-slate-200">Your Projects</h3>
             <button className=" bg-stone-800 w-32 p-2 rounded-md flex items-center text-stone-400 hover:bg-stone-700">
