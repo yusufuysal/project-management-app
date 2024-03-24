@@ -119,20 +119,27 @@ const MainContent = ({
   );
 
   let tasksContent = (
-    <div>
+    <div className=" bg-stone-100 px-4 py-8 rounded-md">
       {tasks?.map((task, index) => (
-        <p key={index}>{task}</p>
+        <div key={index} className=" flex justify-between items-center mb-4">
+          <p>{task}</p>
+          <button className=" text-stone-500 hover:text-stone-600 hover:font-medium">
+            Clear
+          </button>
+        </div>
       ))}
     </div>
   );
 
   let selectedProjectContent = (
-    <div className=" w-10/12">
+    <div className=" w-8/12">
       <div className=" flex justify-between items-center">
         <h2 className=" text-3xl text-stone-700 font-medium mb-4">
           {selectedProject.title}
         </h2>
-        <button>Delete</button>
+        <button className="rounded-md py-2 px-6 hover:bg-gray-100">
+          Delete
+        </button>
       </div>
       <p className=" text-stone-400 mb-6">{selectedProject.date}</p>
       <p className=" text-stone-600 mb-4">{selectedProject.desc}</p>
@@ -148,7 +155,7 @@ const MainContent = ({
         />
         <button onClick={() => handleAddTask(task)}>Add Task</button>
       </div>
-      <div className=" w-full bg-stone-100 h-4">
+      <div className=" w-full h-4">
         {tasks ? tasksContent : <p>There is no task</p>}
       </div>
     </div>
