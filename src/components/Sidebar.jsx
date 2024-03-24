@@ -1,13 +1,23 @@
-const Sidebar = ({ setIsAdding, setIsSelected, projects }) => {
-  const handleAddProject = () => {
-    setIsAdding(true);
-  };
+const Sidebar = ({ setMainContent, projects, saveSelect }) => {
+  function handleAddProject() {
+    setMainContent("add");
+  }
+
+  function handleSelect(p) {
+    setMainContent("select");
+    saveSelect(p);
+  }
 
   let projectsList = (
     <ul className="mt-8 px-8 flex flex-col gap-4">
       {projects?.map((p, index) => (
-        <li key={index} className=" text-stone-400">
-          {p.title}
+        <li
+          key={index}
+          className=" text-stone-400 bg-zinc-950 hover:bg-stone-900 cursor-pointer py-1 px-2"
+        >
+          <button className=" w-full text-left" onClick={() => handleSelect(p)}>
+            {p.title}
+          </button>
         </li>
       ))}
     </ul>
@@ -24,15 +34,15 @@ const Sidebar = ({ setIsAdding, setIsSelected, projects }) => {
           onClick={handleAddProject}
         >
           <svg
-            class="h-4 w-4 mr-1"
+            className="h-4 w-4 mr-1"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
           >
             <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
               d="M12 4v16m8-8H4"
             ></path>
           </svg>

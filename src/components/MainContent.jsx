@@ -1,17 +1,44 @@
 import { useState } from "react";
 import img from "../assets/no-projects.png";
 
-const MainContent = ({ isAdding, isSelected, setIsAdding, saveValues }) => {
+const MainContent = ({
+  mainContent,
+  setMainContent,
+  saveValues,
+  selectedProject,
+}) => {
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
   const [date, setDate] = useState("");
+  const [task, setTask] = useState("");
 
+  let tasks = selectedProject.tasks;
+
+  console.log(tasks);
+
+  function clearInputs() {
+    setTitle("");
+    setDesc("");
+    setDate("");
+  }
   function handleSave() {
     saveValues(title, desc, date);
+    setMainContent("");
+    clearInputs();
+  }
+
+  function handleCancel() {
+    setMainContent("");
+    clearInputs();
+  }
+
+  function handleAddTask(task) {
+    tasks.unshift(task);
+    setTask("");
   }
 
   let noProject = (
-    <div className="flex flex-col gap-4 justify-center items-center pb-24">
+    <div className="flex flex-col gap-4 justify-center items-center pb-24 w-10/12">
       <img className="h-20" src={img} alt="no projects" />
       <h3 className=" text-lg text font-semibold text-stone-600">
         No Project Selected
@@ -30,7 +57,7 @@ const MainContent = ({ isAdding, isSelected, setIsAdding, saveValues }) => {
       <div className=" flex justify-end items-center gap-4">
         <button
           className="rounded-md py-2 px-6 hover:bg-gray-100"
-          onClick={() => setIsAdding(false)}
+          onClick={() => handleCancel()}
         >
           Cancel
         </button>
@@ -64,7 +91,7 @@ const MainContent = ({ isAdding, isSelected, setIsAdding, saveValues }) => {
           >
             Description
           </label>
-          <input
+          <textarea
             type="text"
             id="desc"
             className="w-full bg-stone-300 pb-4 mt-0.5 rounded-sm"
@@ -91,19 +118,53 @@ const MainContent = ({ isAdding, isSelected, setIsAdding, saveValues }) => {
     </div>
   );
 
-  let selectedProject = <p>this is a selected project</p>;
+  let tasksContent = (
+    <div>
+      {tasks?.map((task, index) => (
+        <p key={index}>{task}</p>
+      ))}
+    </div>
+  );
+
+  let selectedProjectContent = (
+    <div className=" w-10/12">
+      <div className=" flex justify-between items-center">
+        <h2 className=" text-3xl text-stone-700 font-medium mb-4">
+          {selectedProject.title}
+        </h2>
+        <button>Delete</button>
+      </div>
+      <p className=" text-stone-400 mb-6">{selectedProject.date}</p>
+      <p className=" text-stone-600 mb-4">{selectedProject.desc}</p>
+      <hr className=" border-2 border-stone-200 mb-4" />
+      <h3 className=" text-xl text-zinc-700 font-semibold mb-4">Tasks</h3>
+      <div className=" flex items-center gap-4 mb-8">
+        <input
+          type="text"
+          id="task"
+          className=" bg-stone-200 pb-2"
+          value={task}
+          onChange={(e) => setTask(e.target.value)}
+        />
+        <button onClick={() => handleAddTask(task)}>Add Task</button>
+      </div>
+      <div className=" w-full bg-stone-100 h-4">
+        {tasks ? tasksContent : <p>There is no task</p>}
+      </div>
+    </div>
+  );
 
   let content = "";
-  if (isAdding) {
+  if (mainContent === "add") {
     content = addProjectForm;
-  } else if (isSelected && !isAdding) {
-    content = selectedProject;
-  } else if (!isSelected && !isAdding) {
+  } else if (mainContent === "select") {
+    content = selectedProjectContent;
+  } else {
     content = noProject;
   }
 
   return (
-    <div className="w-3/4 fixed right-0 h-full flex justify-center items-center pl-16">
+    <div className="w-3/4 fixed right-0 h-full flex justify-start items-center pl-16">
       {content}
     </div>
   );

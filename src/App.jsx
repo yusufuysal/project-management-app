@@ -3,28 +3,32 @@ import Sidebar from "./components/Sidebar";
 import MainContent from "./components/MainContent";
 
 function App() {
-  const [isAdding, setIsAdding] = useState(false);
-  const [isSelected, setIsSelected] = useState(false);
+  const [mainContent, setMainContent] = useState("");
   const [projects, setProjects] = useState([]);
+  const [selectedProject, setSelectedProject] = useState({});
 
   function saveValues(title, desc, date) {
-    let project = { title: title, desc: desc, date: date };
+    let project = { title: title, desc: desc, date: date, tasks: [] };
 
     setProjects((prev) => [project, ...prev]);
+  }
+
+  function saveSelect(selectedProject) {
+    setSelectedProject(selectedProject);
   }
 
   return (
     <>
       <Sidebar
-        setIsAdding={setIsAdding}
-        setIsSelected={setIsSelected}
+        setMainContent={setMainContent}
         projects={projects}
+        saveSelect={saveSelect}
       />
       <MainContent
-        isAdding={isAdding}
-        isSelected={isSelected}
-        setIsAdding={setIsAdding}
+        mainContent={mainContent}
+        setMainContent={setMainContent}
         saveValues={saveValues}
+        selectedProject={selectedProject}
       />
     </>
   );
