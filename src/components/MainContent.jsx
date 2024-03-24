@@ -1,6 +1,15 @@
+import { useState } from "react";
 import img from "../assets/no-projects.png";
 
-const MainContent = ({ isAdding, isSelected }) => {
+const MainContent = ({ isAdding, isSelected, setIsAdding, saveValues }) => {
+  const [title, setTitle] = useState("");
+  const [desc, setDesc] = useState("");
+  const [date, setDate] = useState("");
+
+  function handleSave() {
+    saveValues(title, desc, date);
+  }
+
   let noProject = (
     <div className="flex flex-col gap-4 justify-center items-center pb-24">
       <img className="h-20" src={img} alt="no projects" />
@@ -19,8 +28,16 @@ const MainContent = ({ isAdding, isSelected }) => {
   let addProjectForm = (
     <div className="border-2 border-purple-300 w-10/12 max-w-2xl">
       <div className=" flex justify-end items-center gap-4">
-        <button>Cancel</button>
-        <button className="bg-zinc-950 rounded-md py-2 px-6 text-white">
+        <button
+          className="rounded-md py-2 px-6 hover:bg-gray-100"
+          onClick={() => setIsAdding(false)}
+        >
+          Cancel
+        </button>
+        <button
+          className="bg-zinc-950 rounded-md py-2 px-6 text-white hover:bg-zinc-800"
+          onClick={handleSave}
+        >
           Save
         </button>
       </div>
@@ -36,6 +53,8 @@ const MainContent = ({ isAdding, isSelected }) => {
             type="text"
             id="name"
             className="w-full bg-stone-300 pb-1 mt-0.5 rounded-sm"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
           />
         </div>
         <div className="mb-4">
@@ -49,6 +68,8 @@ const MainContent = ({ isAdding, isSelected }) => {
             type="text"
             id="desc"
             className="w-full bg-stone-300 pb-4 mt-0.5 rounded-sm"
+            value={desc}
+            onChange={(e) => setDesc(e.target.value)}
           />
         </div>
         <div className="mb-4">
@@ -62,6 +83,8 @@ const MainContent = ({ isAdding, isSelected }) => {
             type="date"
             id="date"
             className="w-full bg-stone-300 pb-1 mt-0.5 rounded-sm"
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
           />
         </div>
       </form>
