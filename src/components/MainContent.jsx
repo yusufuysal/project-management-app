@@ -1,7 +1,6 @@
 import { useRef } from "react";
 import Input from "./Input";
-
-import img from "../assets/no-projects.png";
+import NoProject from "./NoProject";
 
 const MainContent = ({
   mainContent,
@@ -25,21 +24,6 @@ const MainContent = ({
   function handleCancel() {
     setMainContent("");
   }
-
-  let noProject = (
-    <div className="flex flex-col gap-4 justify-center items-center pb-24 w-10/12">
-      <img className="h-20" src={img} alt="no projects" />
-      <h3 className=" text-lg text font-semibold text-stone-600">
-        No Project Selected
-      </h3>
-      <p className="text-stone-500">
-        Select a project or get started with a new one
-      </p>
-      <button className=" bg-stone-700 text-stone-400 py-2 px-4 rounded-md mt-6 hover:bg-stone-800">
-        Create new project
-      </button>
-    </div>
-  );
 
   let addProjectForm = (
     <div className="border-2 border-purple-300 w-10/12 max-w-2xl">
@@ -108,7 +92,7 @@ const MainContent = ({
   } else if (mainContent === "select") {
     content = selectedProjectContent;
   } else {
-    content = noProject;
+    content = <NoProject />;
   }
 
   return (
