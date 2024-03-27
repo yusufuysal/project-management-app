@@ -58,9 +58,9 @@ const MainContent = ({
         </button>
       </div>
       <div className=" mt-8">
-        <Input ref={title} name="Title" />
+        <Input type="text" ref={title} name="Title" />
         <Input ref={description} name="Description" textarea />
-        <Input ref={dueDate} name="Due Date" />
+        <Input type="date" ref={dueDate} name="Due Date" />
       </div>
     </div>
   );
