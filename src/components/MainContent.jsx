@@ -1,6 +1,5 @@
-import { useRef } from "react";
-import Input from "./Input";
 import NoProject from "./NoProject";
+import AddProject from "./AddProject";
 
 const MainContent = ({
   mainContent,
@@ -8,11 +7,7 @@ const MainContent = ({
   saveValues,
   selectedProject,
 }) => {
-  const title = useRef();
-  const description = useRef();
-  const dueDate = useRef();
-
-  function handleSave() {
+  function handleSave(title, description, dueDate) {
     saveValues(
       title.current.value,
       description.current.value,
@@ -24,30 +19,6 @@ const MainContent = ({
   function handleCancel() {
     setMainContent("");
   }
-
-  let addProjectForm = (
-    <div className="border-2 border-purple-300 w-10/12 max-w-2xl">
-      <div className=" flex justify-end items-center gap-4">
-        <button
-          className="rounded-md py-2 px-6 hover:bg-gray-100"
-          onClick={() => handleCancel()}
-        >
-          Cancel
-        </button>
-        <button
-          className="bg-zinc-950 rounded-md py-2 px-6 text-white hover:bg-zinc-800"
-          onClick={handleSave}
-        >
-          Save
-        </button>
-      </div>
-      <div className=" mt-8">
-        <Input type="text" ref={title} name="Title" />
-        <Input ref={description} name="Description" textarea />
-        <Input type="date" ref={dueDate} name="Due Date" />
-      </div>
-    </div>
-  );
 
   let tasksContent = (
     <div className=" bg-stone-100 px-4 py-8 rounded-md">
@@ -88,7 +59,9 @@ const MainContent = ({
 
   let content = "";
   if (mainContent === "add") {
-    content = addProjectForm;
+    content = (
+      <AddProject handleCancel={handleCancel} handleSave={handleSave} />
+    );
   } else if (mainContent === "select") {
     content = selectedProjectContent;
   } else {
