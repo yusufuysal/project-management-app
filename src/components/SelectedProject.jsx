@@ -1,3 +1,5 @@
+import Tasks from "./Tasks";
+
 const SelectedProject = ({ selectedProject, tasksContent }) => {
   return (
     <div className=" w-8/12">
@@ -18,7 +20,11 @@ const SelectedProject = ({ selectedProject, tasksContent }) => {
         <button>Add Task</button>
       </div>
       <div className=" w-full h-4">
-        {selectedProject.tasks ? tasksContent : <p>There is no task</p>}
+        {selectedProject.tasks ? (
+          <Tasks selectedProject={selectedProject} />
+        ) : (
+          <p>There is no task</p>
+        )}
       </div>
     </div>
   );
