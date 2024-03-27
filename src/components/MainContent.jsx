@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useRef } from "react";
+import Input from "./Input";
+
 import img from "../assets/no-projects.png";
 
 const MainContent = ({
@@ -7,34 +9,21 @@ const MainContent = ({
   saveValues,
   selectedProject,
 }) => {
-  const [title, setTitle] = useState("");
-  const [desc, setDesc] = useState("");
-  const [date, setDate] = useState("");
-  const [task, setTask] = useState("");
+  const title = useRef();
+  const description = useRef();
+  const dueDate = useRef();
 
-  let tasks = selectedProject.tasks;
-
-  console.log(tasks);
-
-  function clearInputs() {
-    setTitle("");
-    setDesc("");
-    setDate("");
-  }
   function handleSave() {
-    saveValues(title, desc, date);
+    saveValues(
+      title.current.value,
+      description.current.value,
+      dueDate.current.value
+    );
     setMainContent("");
-    clearInputs();
   }
 
   function handleCancel() {
     setMainContent("");
-    clearInputs();
-  }
-
-  function handleAddTask(task) {
-    tasks.unshift(task);
-    setTask("");
   }
 
   let noProject = (
@@ -68,61 +57,19 @@ const MainContent = ({
           Save
         </button>
       </div>
-      <form className=" mt-8">
-        <div className="mb-4">
-          <label
-            htmlFor="name"
-            className=" uppercase text-stone-600 font-semibold"
-          >
-            Title
-          </label>
-          <input
-            type="text"
-            id="name"
-            className="w-full bg-stone-300 pb-1 mt-0.5 rounded-sm"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
-        </div>
-        <div className="mb-4">
-          <label
-            htmlFor="desc"
-            className=" uppercase text-stone-600 font-semibold"
-          >
-            Description
-          </label>
-          <textarea
-            type="text"
-            id="desc"
-            className="w-full bg-stone-300 pb-4 mt-0.5 rounded-sm"
-            value={desc}
-            onChange={(e) => setDesc(e.target.value)}
-          />
-        </div>
-        <div className="mb-4">
-          <label
-            htmlFor="date"
-            className=" uppercase text-stone-600 font-semibold"
-          >
-            Due Date
-          </label>
-          <input
-            type="date"
-            id="date"
-            className="w-full bg-stone-300 pb-1 mt-0.5 rounded-sm"
-            value={date}
-            onChange={(e) => setDate(e.target.value)}
-          />
-        </div>
-      </form>
+      <div className=" mt-8">
+        <Input ref={title} name="Title" />
+        <Input ref={description} name="Description" textarea />
+        <Input ref={dueDate} name="Due Date" />
+      </div>
     </div>
   );
 
   let tasksContent = (
     <div className=" bg-stone-100 px-4 py-8 rounded-md">
-      {tasks?.map((task, index) => (
+      {selectedProject.tasks?.map((task, index) => (
         <div key={index} className=" flex justify-between items-center mb-4">
-          <p>{task}</p>
+          <p>task</p>
           <button className=" text-stone-500 hover:text-stone-600 hover:font-medium">
             Clear
           </button>
@@ -146,17 +93,11 @@ const MainContent = ({
       <hr className=" border-2 border-stone-200 mb-4" />
       <h3 className=" text-xl text-zinc-700 font-semibold mb-4">Tasks</h3>
       <div className=" flex items-center gap-4 mb-8">
-        <input
-          type="text"
-          id="task"
-          className=" bg-stone-200 pb-2"
-          value={task}
-          onChange={(e) => setTask(e.target.value)}
-        />
-        <button onClick={() => handleAddTask(task)}>Add Task</button>
+        <input type="text" id="task" className=" bg-stone-200 pb-2" />
+        <button>Add Task</button>
       </div>
       <div className=" w-full h-4">
-        {tasks ? tasksContent : <p>There is no task</p>}
+        {selectedProject.tasks ? tasksContent : <p>There is no task</p>}
       </div>
     </div>
   );
