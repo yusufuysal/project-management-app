@@ -36,6 +36,14 @@ function App() {
     ]);
   }
 
+  function onDeleteTask(selectedTask) {
+    setTasks((prevTasks) => {
+      const newTasks = prevTasks.filter((task) => task.id !== selectedTask.id);
+
+      return newTasks;
+    });
+  }
+
   return (
     <>
       <Sidebar
@@ -52,6 +60,7 @@ function App() {
         setProjects={setProjects}
         tasks={tasks}
         onAddTask={onAddTask}
+        onDeleteTask={onDeleteTask}
       />
     </>
   );

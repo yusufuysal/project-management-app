@@ -1,7 +1,12 @@
 import { useState } from "react";
 import Tasks from "./Tasks";
 
-const SelectedProject = ({ selectedProject, tasks, onAddTask }) => {
+const SelectedProject = ({
+  selectedProject,
+  tasks,
+  onAddTask,
+  onDeleteTask,
+}) => {
   const [task, setTask] = useState("");
 
   function handleChange(event) {
@@ -46,6 +51,7 @@ const SelectedProject = ({ selectedProject, tasks, onAddTask }) => {
             tasks={tasks.filter(
               (task) => task.projectId === selectedProject.id
             )}
+            handleDelete={onDeleteTask}
           />
         ) : (
           <p>There are no tasks</p>
