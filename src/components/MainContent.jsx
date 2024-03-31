@@ -7,6 +7,8 @@ const MainContent = ({
   setMainContent,
   saveValues,
   selectedProject,
+  onAddTask,
+  tasks,
 }) => {
   function handleSave(title, description, dueDate) {
     saveValues(
@@ -27,7 +29,13 @@ const MainContent = ({
       <AddProject handleCancel={handleCancel} handleSave={handleSave} />
     );
   } else if (mainContent === "select") {
-    content = <SelectedProject selectedProject={selectedProject} />;
+    content = (
+      <SelectedProject
+        selectedProject={selectedProject}
+        onAddTask={onAddTask}
+        tasks={tasks}
+      />
+    );
   } else {
     content = <NoProject />;
   }

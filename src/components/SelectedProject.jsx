@@ -1,6 +1,20 @@
+import { useState } from "react";
 import Tasks from "./Tasks";
 
-const SelectedProject = ({ selectedProject, tasksContent }) => {
+const SelectedProject = ({ selectedProject, tasks, onAddTask }) => {
+  const [task, setTask] = useState("");
+
+  function handleChange(event) {
+    setTask(event.target.value);
+  }
+
+  function handleAddTask() {
+    if (task.trim() !== "") {
+      onAddTask(task);
+      setTask("");
+    }
+  }
+
   return (
     <div className=" w-8/12">
       <div className=" flex justify-between items-center">
@@ -16,14 +30,25 @@ const SelectedProject = ({ selectedProject, tasksContent }) => {
       <hr className=" border-2 border-stone-200 mb-4" />
       <h3 className=" text-xl text-zinc-700 font-semibold mb-4">Tasks</h3>
       <div className=" flex items-center gap-4 mb-8">
-        <input type="text" id="task" className=" bg-stone-200 pb-2" />
-        <button>Add Task</button>
+        <input
+          type="text"
+          id="task"
+          value={task}
+          onChange={handleChange}
+          className=" bg-stone-200 pb-2"
+        />
+        <button onClick={handleAddTask}>Add Task</button>
       </div>
       <div className=" w-full h-4">
-        {selectedProject.tasks ? (
-          <Tasks selectedProject={selectedProject} />
+        {tasks?.filter((task) => task.projectId === selectedProject.id).length >
+        0 ? (
+          <Tasks
+            tasks={tasks.filter(
+              (task) => task.projectId === selectedProject.id
+            )}
+          />
         ) : (
-          <p>There is no task</p>
+          <p>There are no tasks</p>
         )}
       </div>
     </div>

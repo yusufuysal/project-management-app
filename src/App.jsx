@@ -7,14 +7,33 @@ function App() {
   const [projects, setProjects] = useState([]);
   const [selectedProject, setSelectedProject] = useState({});
 
+  const [tasks, setTasks] = useState([]);
+
   function saveValues(title, desc, date) {
-    let project = { title: title, desc: desc, date: date, tasks: [] };
+    let project = {
+      id: Math.random().toString(36).substr(2, 9),
+      title: title,
+      desc: desc,
+      date: date,
+      tasks: [],
+    };
 
     setProjects((prev) => [project, ...prev]);
   }
 
   function saveSelect(selectedProject) {
     setSelectedProject(selectedProject);
+  }
+
+  function onAddTask(task) {
+    setTasks((prevTasks) => [
+      {
+        projectId: selectedProject.id,
+        id: Math.random().toString(36).substr(2, 9),
+        content: task,
+      },
+      ...prevTasks,
+    ]);
   }
 
   return (
@@ -29,6 +48,10 @@ function App() {
         setMainContent={setMainContent}
         saveValues={saveValues}
         selectedProject={selectedProject}
+        projects={projects}
+        setProjects={setProjects}
+        tasks={tasks}
+        onAddTask={onAddTask}
       />
     </>
   );
