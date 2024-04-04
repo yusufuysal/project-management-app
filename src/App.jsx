@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Sidebar from "./components/Sidebar";
 import MainContent from "./components/MainContent";
+import { ProjectsContext } from "./store/projects-context";
 
 function App() {
   const [mainContent, setMainContent] = useState("");
@@ -45,7 +46,7 @@ function App() {
   }
 
   return (
-    <>
+    <ProjectsContext.Provider>
       <Sidebar
         setMainContent={setMainContent}
         projects={projects}
@@ -62,7 +63,7 @@ function App() {
         onAddTask={onAddTask}
         onDeleteTask={onDeleteTask}
       />
-    </>
+    </ProjectsContext.Provider>
   );
 }
 
