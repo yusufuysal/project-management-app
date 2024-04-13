@@ -1,7 +1,10 @@
-import { useRef } from "react";
+import { useRef, useContext } from "react";
+import { ProjectsContext } from "../store/projects-context";
 import Input from "./Input";
 
-const AddProject = ({ handleCancel, handleSave }) => {
+const AddProject = () => {
+  const { handleSave, handleCloseAddForm } = useContext(ProjectsContext);
+
   const title = useRef();
   const description = useRef();
   const dueDate = useRef();
@@ -10,7 +13,7 @@ const AddProject = ({ handleCancel, handleSave }) => {
       <div className=" flex justify-end items-center gap-4">
         <button
           className="rounded-md py-2 px-6 hover:bg-gray-100"
-          onClick={handleCancel}
+          onClick={handleCloseAddForm}
         >
           Cancel
         </button>

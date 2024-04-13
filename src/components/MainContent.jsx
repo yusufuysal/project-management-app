@@ -6,30 +6,11 @@ import AddProject from "./AddProject";
 import SelectedProject from "./SelectedProject";
 
 const MainContent = ({ tasks, onAddTask, onDeleteTask }) => {
-  const {
-    projects,
-    selectedProjectId,
-    selectedProject,
-    addProject,
-    handleCloseAddForm,
-  } = useContext(ProjectsContext);
-
-  console.log("SELECTED PROJECT ID: ", selectedProjectId);
-  console.log("SELECTED PROJECT: ", selectedProject);
-
-  function handleSave(title, description, dueDate) {
-    addProject(
-      title.current.value,
-      description.current.value,
-      dueDate.current.value
-    );
-  }
+  const { selectedProjectId, selectedProject } = useContext(ProjectsContext);
 
   let content = "";
   if (selectedProjectId === null) {
-    content = (
-      <AddProject handleCancel={handleCloseAddForm} handleSave={handleSave} />
-    );
+    content = <AddProject />;
   } else if (selectedProject) {
     content = (
       <SelectedProject

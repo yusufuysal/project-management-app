@@ -47,6 +47,14 @@ function App() {
     });
   }
 
+  function handleSave(title, description, dueDate) {
+    handleAddProject(
+      title.current.value,
+      description.current.value,
+      dueDate.current.value
+    );
+  }
+
   function handleSelectProject(projectId) {
     setProjectsState((prev) => {
       let updatedState = { ...prev, selectedProjectId: projectId };
@@ -82,6 +90,7 @@ function App() {
     projects: projectsState.projects,
     selectedProjectId: projectsState.selectedProjectId,
     selectedProject: projectsState.selectedProject,
+    handleSave: handleSave,
     addProject: handleAddProject,
     selectProject: handleSelectProject,
     handleOpenAddForm: handleOpenAddForm,
