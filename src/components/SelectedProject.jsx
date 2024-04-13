@@ -19,8 +19,6 @@ const SelectedProject = ({ tasks, onAddTask, onDeleteTask }) => {
     }
   }
 
-  console.log("SELECTED PROJECT IS RENDERDDD");
-
   return (
     <div className=" w-8/12">
       <div className=" flex justify-between items-center">
