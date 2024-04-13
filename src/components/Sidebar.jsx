@@ -1,11 +1,12 @@
-const Sidebar = ({ setMainContent, projects, saveSelect }) => {
-  function handleAddProject() {
-    setMainContent("add");
-  }
+import { useContext } from "react";
+import { ProjectsContext } from "../store/projects-context";
 
-  function handleSelect(p) {
-    setMainContent("select");
-    saveSelect(p);
+const Sidebar = () => {
+  const { projects, selectProject, selectedProjectId, handleOpenAddForm } =
+    useContext(ProjectsContext);
+
+  function handleSelectProject(projectId) {
+    selectProject(projectId);
   }
 
   let projectsList = (
@@ -15,7 +16,10 @@ const Sidebar = ({ setMainContent, projects, saveSelect }) => {
           key={index}
           className=" text-stone-400 bg-zinc-950 hover:bg-stone-900 cursor-pointer py-1 px-2"
         >
-          <button className=" w-full text-left" onClick={() => handleSelect(p)}>
+          <button
+            className=" w-full text-left"
+            onClick={() => handleSelectProject(p.projectId)}
+          >
             {p.title}
           </button>
         </li>
@@ -31,7 +35,7 @@ const Sidebar = ({ setMainContent, projects, saveSelect }) => {
         <h3 className=" uppercase text-slate-200">Your Projects</h3>
         <button
           className=" bg-stone-800 w-32 p-2 rounded-md flex items-center text-stone-400 hover:bg-stone-700"
-          onClick={handleAddProject}
+          onClick={handleOpenAddForm}
         >
           <svg
             className="h-4 w-4 mr-1"

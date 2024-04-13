@@ -4,8 +4,10 @@ import { createContext } from "react";
 export const ProjectsContext = createContext({
   projects: [
     {
-      projectName: "",
       projectId: Math.random(),
+      title: "",
+      desc: "",
+      date: "",
       tasks: [
         {
           taskName: "",
@@ -13,6 +15,7 @@ export const ProjectsContext = createContext({
       ],
     },
   ],
+  selectedProjectId: undefined,
   selectedProject: undefined,
 });
 

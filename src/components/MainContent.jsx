@@ -1,38 +1,38 @@
+import { useContext } from "react";
+import { ProjectsContext } from "../store/projects-context";
+
 import NoProject from "./NoProject";
 import AddProject from "./AddProject";
 import SelectedProject from "./SelectedProject";
 
-const MainContent = ({
-  mainContent,
-  setMainContent,
-  saveValues,
-  selectedProject,
-  tasks,
-  onAddTask,
-  onDeleteTask,
-}) => {
+const MainContent = ({ tasks, onAddTask, onDeleteTask }) => {
+  const {
+    projects,
+    selectedProjectId,
+    selectedProject,
+    addProject,
+    handleCloseAddForm,
+  } = useContext(ProjectsContext);
+
+  console.log("SELECTED PROJECT ID: ", selectedProjectId);
+  console.log("SELECTED PROJECT: ", selectedProject);
+
   function handleSave(title, description, dueDate) {
-    saveValues(
+    addProject(
       title.current.value,
       description.current.value,
       dueDate.current.value
     );
-    setMainContent("");
-  }
-
-  function handleCancel() {
-    setMainContent("");
   }
 
   let content = "";
-  if (mainContent === "add") {
+  if (selectedProjectId === null) {
     content = (
-      <AddProject handleCancel={handleCancel} handleSave={handleSave} />
+      <AddProject handleCancel={handleCloseAddForm} handleSave={handleSave} />
     );
-  } else if (mainContent === "select") {
+  } else if (selectedProject) {
     content = (
       <SelectedProject
-        selectedProject={selectedProject}
         tasks={tasks}
         onAddTask={onAddTask}
         onDeleteTask={onDeleteTask}

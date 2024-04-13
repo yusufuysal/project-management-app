@@ -1,13 +1,12 @@
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
+import { ProjectsContext } from "../store/projects-context";
+
 import Tasks from "./Tasks";
 
-const SelectedProject = ({
-  selectedProject,
-  tasks,
-  onAddTask,
-  onDeleteTask,
-}) => {
+const SelectedProject = ({ tasks, onAddTask, onDeleteTask }) => {
   const [task, setTask] = useState("");
+
+  const { projects, selectedProject } = useContext(ProjectsContext);
 
   function handleChange(event) {
     setTask(event.target.value);
@@ -19,6 +18,8 @@ const SelectedProject = ({
       setTask("");
     }
   }
+
+  console.log("SELECTED PROJECT IS RENDERDDD");
 
   return (
     <div className=" w-8/12">

@@ -1,29 +1,62 @@
-import { useState } from "react";
-import Sidebar from "./components/Sidebar";
-import MainContent from "./components/MainContent";
+import { useState, useContext } from "react";
 import { ProjectsContext } from "./store/projects-context";
 
+import Sidebar from "./components/Sidebar";
+import MainContent from "./components/MainContent";
+
 function App() {
-  const [mainContent, setMainContent] = useState("");
-  const [projects, setProjects] = useState([]);
-  const [selectedProject, setSelectedProject] = useState({});
-
   const [tasks, setTasks] = useState([]);
+  const [mainContent, setMainContent] = useState(undefined);
 
-  function saveValues(title, desc, date) {
+  const [projectsState, setProjectsState] = useState({
+    projects: [],
+    selectedProjectId: undefined,
+    selectedProject: undefined,
+  });
+
+  function handleOpenAddForm() {
+    setProjectsState((prev) => {
+      return { ...prev, selectedProjectId: null };
+    });
+  }
+
+  function handleCloseAddForm() {
+    setProjectsState((prev) => {
+      return { ...prev, selectedProjectId: undefined };
+    });
+  }
+
+  function handleAddProject(title, desc, date) {
     let project = {
-      id: Math.random().toString(36).substr(2, 9),
+      projectId: Math.random().toString(36).substr(2, 9),
       title: title,
       desc: desc,
       date: date,
       tasks: [],
     };
 
-    setProjects((prev) => [project, ...prev]);
+    setProjectsState((prev) => {
+      const updatedProjects = [project, ...prev.projects];
+      const updatedState = {
+        ...prev,
+        projects: updatedProjects,
+        selectedProjectId: undefined,
+      };
+
+      return updatedState;
+    });
   }
 
-  function saveSelect(selectedProject) {
-    setSelectedProject(selectedProject);
+  function handleSelectProject(projectId) {
+    setProjectsState((prev) => {
+      let updatedState = { ...prev, selectedProjectId: projectId };
+      const newSelectedProject = projectsState.projects.find(
+        (project) => project.projectId === updatedState.selectedProjectId
+      );
+      updatedState = { ...prev, selectedProject: newSelectedProject };
+
+      return updatedState;
+    });
   }
 
   function onAddTask(task) {
@@ -45,20 +78,20 @@ function App() {
     });
   }
 
+  const projectsCtx = {
+    projects: projectsState.projects,
+    selectedProjectId: projectsState.selectedProjectId,
+    selectedProject: projectsState.selectedProject,
+    addProject: handleAddProject,
+    selectProject: handleSelectProject,
+    handleOpenAddForm: handleOpenAddForm,
+    handleCloseAddForm: handleCloseAddForm,
+  };
+
   return (
-    <ProjectsContext.Provider>
-      <Sidebar
-        setMainContent={setMainContent}
-        projects={projects}
-        saveSelect={saveSelect}
-      />
+    <ProjectsContext.Provider value={projectsCtx}>
+      <Sidebar />
       <MainContent
-        mainContent={mainContent}
-        setMainContent={setMainContent}
-        saveValues={saveValues}
-        selectedProject={selectedProject}
-        projects={projects}
-        setProjects={setProjects}
         tasks={tasks}
         onAddTask={onAddTask}
         onDeleteTask={onDeleteTask}
